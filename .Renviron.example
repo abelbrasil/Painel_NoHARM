@@ -1,0 +1,8 @@
+# Copie este arquivo para ".Renviron" (mesma pasta) e preencha a senha real.
+# O arquivo ".Renviron" NAO deve ser commitado - ele ja esta no .gitignore.
+
+NOHARM_DB_HOST=aws-0-us-west-2.pooler.supabase.com
+NOHARM_DB_PORT=5432
+NOHARM_DB_NAME=postgres
+NOHARM_DB_USER=postgres.upvjwkbdlptfnnwcqfct
+NOHARM_DB_PASSWORD=

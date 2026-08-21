@@ -1,0 +1,12 @@
+# Credenciais - nunca versionar
+.Renviron
+
+# Dados de entrada e saidas intermediarias (sensiveis / grandes)
+Input/*.csv
+Rdata/*.Rdata
+
+# Artefatos padrao do R / RStudio
+.Rhistory
+.RData
+.Rproj.user/
+*.Rproj
