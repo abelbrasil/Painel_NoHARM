@@ -43,19 +43,36 @@ código. Elas são lidas de variáveis de ambiente carregadas de um arquivo
 
 ## Painel Power BI — página "Paciente-dia"
 
-`Painel_NoHARM.pbix` neste repositório é o arquivo **original, sem
-alterações binárias** — ele já contém a conexão com o Supabase e as tabelas
-importadas, incluindo `df_pacientedia`.
+`Painel_NoHARM.pbix` já contém a conexão com o Supabase, as tabelas
+importadas e uma nova página **Paciente-dia**, construída sobre a tabela
+`df_pacientedia`, com:
 
-Este arquivo foi baixado do Power BI Service (é um pbix "Cloud"), o que
-significa que carrega uma assinatura interna de integridade
-(`SecurityBindings`). Editar o pacote `.pbix` por fora do Power BI Desktop
-invalida essa assinatura e o arquivo passa a ser recusado como "corrompido"
-ao abrir — foi o que aconteceu numa primeira tentativa de montar a página
-"Paciente-dia" editando o JSON do relatório diretamente. Por isso a página
-**não** foi embutida no `.pbix` — precisa ser criada no Power BI Desktop.
+- **Card — Total de Pacientes-dia**: contagem de registros de `df_pacientedia`.
+- **Card — Tempo Total de Avaliação**: soma da coluna `tempo_de_avaliacao`.
+- **Card — Paciente-dia Checados**: contagem de registros com `checado = 1`.
+- **Gráfico temporal por período**: linha com a contagem de paciente-dia por
+  `periodo` (coluna `AAAA-MM` já calculada no transform).
+- **Filtro temporal por período**: slicer sobre a coluna `periodo`.
+- **Gráfico por setor**: barras com a contagem de paciente-dia por `setor`.
 
-Veja **[PACIENTE_DIA_GUIA.md](PACIENTE_DIA_GUIA.md)** para o passo a passo
-completo: as 3 medidas DAX, os 6 visuais pedidos (cards, gráfico e filtro
-temporal por período, gráfico por setor) e os nomes exatos de coluna,
-já conferidos contra o schema real do modelo embutido no arquivo.
+O botão de navegação que já existia na capa do relatório foi mantido
+apontando para essa página.
+
+### Sobre a primeira tentativa (arquivo "corrompido")
+
+Uma primeira versão deste arquivo falhou ao abrir ("corrompido ou criado por
+uma versão não reconhecida"). Causa: este `.pbix` foi baixado do Power BI
+Service (`Metadata` interno mostra `"CreatedFrom":"Cloud"`) e carregava um
+part `SecurityBindings` — uma assinatura de integridade do pacote que
+qualquer edição feita por fora do Power BI Desktop invalida. A correção
+(documentada pela comunidade Power BI para esse exato cenário) é remover o
+part `SecurityBindings` e a sua entrada em `[Content_Types].xml` antes de
+reempacotar; o Power BI Desktop recria esse part sozinho ao salvar. Essa
+correção já foi aplicada ao `.pbix` deste repositório.
+
+Como este ambiente não tem Power BI Desktop instalado para renderizar e
+validar visualmente o resultado, abra o arquivo no Desktop e confira o
+layout/formatação antes de publicar. Se algum visual aparecer com erro de
+campo, **[PACIENTE_DIA_GUIA.md](PACIENTE_DIA_GUIA.md)** traz a mesma
+especificação (medidas DAX, campos e tipos de visual) para reconstruir a
+página manualmente como alternativa.
