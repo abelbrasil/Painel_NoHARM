@@ -43,26 +43,19 @@ código. Elas são lidas de variáveis de ambiente carregadas de um arquivo
 
 ## Painel Power BI — página "Paciente-dia"
 
-O `Painel_NoHARM.pbix` já contém a conexão com o Supabase e as tabelas
-importadas. Foi adicionada a página **Paciente-dia**, construída sobre a
-tabela `df_pacientedia`, com:
+`Painel_NoHARM.pbix` neste repositório é o arquivo **original, sem
+alterações binárias** — ele já contém a conexão com o Supabase e as tabelas
+importadas, incluindo `df_pacientedia`.
 
-- **Card — Total de Pacientes-dia**: contagem de registros de `df_pacientedia`.
-- **Card — Tempo Total de Avaliação**: soma da coluna `tempo_de_avaliacao`.
-- **Card — Paciente-dia Checados**: contagem de registros com `checado = 1`.
-- **Gráfico temporal por período**: linha com a contagem de paciente-dia por
-  `periodo` (coluna `AAAA-MM` já calculada no transform).
-- **Filtro temporal por período**: slicer sobre a coluna `periodo`.
-- **Gráfico por setor**: barras com a contagem de paciente-dia por `setor`.
+Este arquivo foi baixado do Power BI Service (é um pbix "Cloud"), o que
+significa que carrega uma assinatura interna de integridade
+(`SecurityBindings`). Editar o pacote `.pbix` por fora do Power BI Desktop
+invalida essa assinatura e o arquivo passa a ser recusado como "corrompido"
+ao abrir — foi o que aconteceu numa primeira tentativa de montar a página
+"Paciente-dia" editando o JSON do relatório diretamente. Por isso a página
+**não** foi embutida no `.pbix` — precisa ser criada no Power BI Desktop.
 
-O botão de navegação já existente na capa do relatório foi mantido apontando
-para essa página.
-
-> Observação: a página foi montada editando diretamente a definição do
-> relatório (formato PBIR/JSON dentro do `.pbix`). Como não há Power BI
-> Desktop disponível neste ambiente para renderizar e validar visualmente o
-> resultado, vale abrir o arquivo no Desktop e conferir o layout/formatação
-> antes de publicar — os campos e agregações usados foram validados
-> diretamente contra o schema real do modelo de dados embutido no `.pbix`
-> (tabela `df_pacientedia`), mas ajustes finos de estilo podem ser
-> necessários.
+Veja **[PACIENTE_DIA_GUIA.md](PACIENTE_DIA_GUIA.md)** para o passo a passo
+completo: as 3 medidas DAX, os 6 visuais pedidos (cards, gráfico e filtro
+temporal por período, gráfico por setor) e os nomes exatos de coluna,
+já conferidos contra o schema real do modelo embutido no arquivo.
